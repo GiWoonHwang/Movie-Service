@@ -13,10 +13,12 @@
       counter = counter + 1;
       render();
     }
+
     function render() {
-      ReactDOM.render(<Container />, root);
+      ReactDOM.render(<App />, root);
     }
-    function Container() {
+    function App() {
+      const [counter, modifier] = React.useState(0);
       return (
         <div>
           <h3>Total clicks: {counter}</h3>
@@ -56,3 +58,8 @@ ReactJS는 DOM 변경을 처리하기 위해 가상 DOM(Virtual DOM)이라는 �
 ReactJS는 상태 변경이 발생할 때마다 새로운 가상 DOM 트리를 생성하고, 이전의 가상 DOM 트리와 비교하여 변경된 부분을 파악합니다. 이렇게 파악된 변경 사항만 실제 DOM에 반영하는 방식을 사용합니다. 이 과정을 '재조정(Reconciliation)' 또는 'Diffing'이라고 부릅니다.
 가상 DOM을 사용함으로써, 변경이 필요한 최소한의 요소만 실제 DOM에 반영되기 때문에 불필요한 연산을 줄이고 성능을 향상시킬 수 있습니다.
  -->
+
+<!-- 자바스크립트 배열요소 변수에 할당하기 기존방식 const datas = [1,2,3] const a =
+datas[0] const b = datas[1] const c = datas[2] 
+
+배운 방식 const [a,b,c] = x; -->

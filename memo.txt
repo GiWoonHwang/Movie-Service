@@ -1,0 +1,120 @@
+// 나중에 블로그에 정리할 것
+
+
+리액트를 import했기 때문에 createElement function을 가진 리액트 object에 접근 가능
+const span 그러나 createElement(“span”) 은 반드시 생성하고자 하는 HTML 태그와 똑같아야함
+
+React JS - 어플리케이션이 아주 인터랙티브하도록 만들어주는 library. 엔진과 같다.
+React-dom - library 또는 package. 모든 react element들을 HTML body에 둘 수 있도록 해줌.
+ReactDOM.render() - render의 의미는 react element를 가지고 HTML로 만들어 배치한다는 것. 즉, 사용자에게 보여준다는 의미
+ReactDOM.render(span, span이 가야할 위치)
+-> 그래서 보통 body에 id=“root” 만들어서 span을 root 안에 두라고 함
+
+React.createElement("span", {span의 property}, “span의 내용”)
+-> property는 class name, id도 가능 style도 가능
+-> 참고만 하고 외우지 말기. 이렇게 쓸 일 없음
+
+바닐라JS는 HTML -> JS 순서
+리액트는 JS -> HTML 순서
+
+JS가 element를 생성하고 React JS가 그것을 HTML로 번역하는 것
+React JS는 업데이트 해야 하는 HTML을 업데이트 할 수 있음
+-------------------------------------------------------------------------------------------------
+
+1. Vanilla JavaScript
+Vanilla JavaScript에서는 DOM 변경을 직접 처리합니다. 즉, 필요한 DOM 요소를 직접 선택하고, 요소의 속성을 변경하거나 새로운 요소를 추가하거나 기존 요소를 제거하는 등의 작업을 직접 수행합니다.
+DOM 변경이 발생하면, 브라우저는 변경된 DOM 트리를 다시 계산하고, 렌더 트리를 다시 생성한 후 화면에 그립니다. 이 과정은 비용이 많이 드는 연산으로, 자주 발생하게 되면 성능을 저하시킬 수 있습니다.
+
+2. ReactJS
+ReactJS는 DOM 변경을 처리하기 위해 가상 DOM(Virtual DOM)이라는 개념을 도입합니다. ReactJS에서는 먼저 메모리에 가상 DOM 트리를 생성합니다. 이 트리는 실제 DOM 트리의 사본으로서, 실제 DOM 트리와 별도로 존재합니다.
+ReactJS는 상태 변경이 발생할 때마다 새로운 가상 DOM 트리를 생성하고, 이전의 가상 DOM 트리와 비교하여 변경된 부분을 파악합니다. 이렇게 파악된 변경 사항만 실제 DOM에 반영하는 방식을 사용합니다. 이 과정을 '재조정(Reconciliation)' 또는 'Diffing'이라고 부릅니다.
+가상 DOM을 사용함으로써, 변경이 필요한 최소한의 요소만 실제 DOM에 반영되기 때문에 불필요한 연산을 줄이고 성능을 향상시킬 수 있습니다.
+-------------------------------------------------------------------------------------------------
+
+자바스크립트 배열요소 변수에 할당하기 기존방식 const datas = [1,2,3] const a =
+datas[0] const b = datas[1] const c = datas[2] 
+
+배운 방식 const [a,b,c] = x;
+-------------------------------------------------------------------------------------------------
+
+React.useState() 배열에서
+보통 데이터에는 counter처럼 원하는대로 붙이고
+f는 set 뒤에 데이터 이름을 붙임 (setCounter)
+어떤값을 부여하던 setCounter 함수는 그 값으로 업데이트하고 리렌더링 일으킴
+1. counter라는 데이터를 받음
+2. return()에 그 데이터를 담고 있음 (리턴은 사용자가 보게될 컴포넌트)
+3. 버튼이 클릭되면 counter값을 바꿔줄 함수 호출 -> setCounter
+4. counter의 새로운 값을 가지고 counter 함수를 호출
+5. 그 새로운 값은 setCounter(counter + 1)에 써준 counter + 1
+-------------------------------------------------------------------------------------------------
+
+1. 값으로 여러번
+function onClick() {
+setCounter(counter + 1);
+setCounter(counter + 1);
+setCounter(counter + 1);
+setCounter(counter + 1);
+setCounter(counter + 1);
+}
+
+2. 함수로 여러번
+function onClick() {
+setCounter(current => current+ 1);
+setCounter(current => current+ 1);
+setCounter(current => current+ 1);
+setCounter(current => current+ 1);
+setCounter(current => current+ 1);
+}
+
+1번으로 돌렸을 경우에는 setCounter를 몇번을 호출해도 한 번만 실행되는 걸 보실 수 있고(counter가 1만 증가)
+2번으로 돌렸을 경우에는 setCounter가 호출된 만큼 counter가 증가된 걸 볼 수 있습니다.
+
+왜 setState에 current라고 넣어줘도 작동하는건가요?
+setState는 함수이고, 인자값으로 객체를 넣어주면 알아서 현재 state값을 찾아 매핑되는건가요?
+
+setState의 인자값이 객체인지 함수인지 판별하는 부분이 있습니다. 함수일 경우 저장되어 있는 값(객체)을 인자로하여 리턴한 값을 최종적으로 업데이트 합니다. 확인하시고 싶으시면 react-dom.development.js 15228 번째 라인입니다.(v17.0.2)
+
+setState() 즉각적인 명령이 아니라 컴포넌트를 갱신하라고 요청.
+setState()는 컴포넌트를 항상 즉각적으로 갱신하지 않음. 오히려 여러 변경 사항과 함께 일괄적으로 갱신하거나, 나중으로 미룰 수 있음. 이로 인하여 setState()를 호출하자마자 this.state에 접근하는 것은 잠재적인 문제가 될 수 있음.
+이전 state값을 기준으로 state값을 설정해야 한다면 setState((state)=> state+1)을 사용하는 것이 안전함.
+
+useState의 modifier는 비동기적이라서, re-rendering할 때 다 모아서 한번에 값을 갱신하기 때문에,
+
+function onClick() {
+setCounter(counter + 1);
+setCounter(counter + 1);
+}
+
+실수로 코드를 위의 방식대로 짜버렸을 때 디버깅이 어려워지는 걸 방지하기 위해 함수형으로 짜는군요! Thank you
+-------------------------------------------------------------------------------------------------
+
+flip
+const onFlip = () => setFlipped(!flipped);
+-> flipped가 true라면 부정명제인 !flipped는 false
+-> false라면 true
+
+state값으로 input을 enabled할지 disabled 할지를 결정할 수 있음
+
+디폴트 값이 false 라고 정했으므로 Hours는 disabled 되어야함
+그래서 disabled={flipped === false}를 써줘서
+flipped가 false라면, disabled는 true가 되도록 만들어줌
+Minuets에는 반대로
+disabled={flipped === true}라고 써줌
+그러나
+Hours는
+disabled={!flipped}
+Minuets에는 반대로
+disabled={flipped}
+주는게 더 짧고 좋음
+
+시간 -> 분 컨버터
+삼항연산자(ternary operator) 사용하기
+flipped ? amount : amount / 60
+-> 만약 flipped 상태면 state에 있는 값을 그대로 보여주기
+아니라면 60으로 나눈 변환된 값 보여주기
+value={flipped ? amount * 60 : amount}
+-> 만약 flipped 상태면 60으로 곱한 변환된 값 보여주기
+아니라면 state에 있는 값을 그대로 보여주기
+
+flip누르면 변화된 값 그대로 가져오므로
+onFlip 변수에 reset(); 넣어주기

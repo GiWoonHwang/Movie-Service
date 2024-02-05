@@ -1,23 +1,4 @@
-import Button from "./Button";
-import styles from "./App.module.css";
 import { useState, useEffect } from "react";
-
-function Hello() {
-  function byeFn() {
-    console.log("bye ");
-  }
-  function hiFn() {
-    console.log("created :) ");
-    return byeFn;
-  }
-  useEffect(() => {
-    console.log("hi ");
-    return () => {
-      console.log("bye ");
-    };
-  }, []);
-  return <h1>Hello</h1>;
-}
 
 function App() {
   const [toDo, setToDo] = useState("");
@@ -26,7 +7,7 @@ function App() {
     setToDo(event.target.value);
   };
   const onSubmit = (event) => {
-    event.preventDefault();
+    event.preventDefault(); // 브라우저가 새로고침되는 걸 막아 toDo가 초기화 되는것을 방지한다.
     if (toDo === "") {
       return;
     }
@@ -45,6 +26,12 @@ function App() {
         ></input>
         <button>Add To Do</button>
       </form>
+      <hr></hr>
+      <ul>
+        {toDos.map((item, index) => (
+          <li key={index}>{item}</li>
+        ))}
+      </ul>
     </div>
   );
 }

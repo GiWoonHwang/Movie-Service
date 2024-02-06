@@ -1,17 +1,19 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Movie from "../components/Movie";
+import MovieDetail from "../components/MovieDetail";
 
 function Detail() {
-  const [movieDetail, setMovieDetail] = useState("");
+  const [movieDetail, setMovieDetail] = useState([]);
+  const [loading, setLoading] = useState(true);
   const { id } = useParams();
   const getMoive = async () => {
     const json = await (
       await fetch(`https://yts.mx/api/v2/movie_details.json?movie_id=${id}`)
     ).json();
     console.log(json);
-    setMovieDetail(json.data.movie.description_intro);
-    console.log(movieDetail);
+    setMovieDetail([json.data.movie]);
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -21,8 +23,25 @@ function Detail() {
   return (
     <div>
       <h1>Detail</h1>
-      <br></br>
-      <div>{movieDetail}</div>
+      {loading ? (
+        <h1>Loading ...</h1>
+      ) : (
+        <div>
+          {movieDetail.map((movie) => (
+            <MovieDetail
+              key={movie.id}
+              id={movie.id}
+              coverImage={movie.medium_cover_image}
+              title={movie.title}
+              summary={movie.description_intro}
+              genres={movie.genres}
+              language={movie.language}
+              like_count={movie.like_count}
+              rating={movie.rating}
+            />
+          ))}
+        </div>
+      )}
     </div>
   );
 }

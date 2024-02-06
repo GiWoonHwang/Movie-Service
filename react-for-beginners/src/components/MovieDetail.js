@@ -14,11 +14,9 @@ function MovieDetail({
   return (
     <div>
       <img src={coverImage} alt={title}></img>
-      <p>{language}</p>
-      <br></br>
-      <p>{like_count}</p>
-      <br></br>
-      <p>{rating}</p>
+      <p>언어 {language}</p>
+      <p>좋아요 {like_count}</p>
+      <p>평점 {rating}</p>
       <h2>
         <Link to={`/movie/${id}`}>{title}</Link>
       </h2>
